@@ -1,5 +1,7 @@
 class User < ApplicationRecord
-  validates :name, presence: true
+  #Associations
   has_many :posts
   
+  #Validations
+  validates :name, presence: true
 end

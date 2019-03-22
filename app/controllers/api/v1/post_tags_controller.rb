@@ -22,11 +22,6 @@ class Api::V1::PostTagsController < ApplicationController
     @post_tag = PostTag.find(params[:id])
   end
 
-def get_post
-  @post = Post.find(@post_tag.post_id)
-
-end
-
   def post_tag_params
     params.require(:post_tag).permit(:id, :tag_id, :post_id, :user_id)
   end
