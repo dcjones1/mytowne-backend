@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       resources :users, except: [:new, :edit]
       resources :posts, except: [:new, :edit]
       resources :tags, only: [:create]
-      resources :post_tags, only: [:create, :delete]
+      resources :post_tags, only: [:create, :destroy]
     end
   end
 end
