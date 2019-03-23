@@ -2,6 +2,7 @@ class Api::V1::PostTagsController < ApplicationController
   before_action :get_post_tag, only: [:destroy]
   
   def create
+    byebug
     @post_tag = PostTag.new(post_tag_params)
     
     if @post_tag.save

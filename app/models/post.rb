@@ -4,6 +4,8 @@ class Post < ApplicationRecord
   has_many :post_tags
   has_many :tags, through: :post_tags, dependent: :destroy
 
+  accepts_nested_attributes_for :post_tags, allow_destroy: true
+
   #Validations
   validates :title, presence: true
   validates :content, presence: true

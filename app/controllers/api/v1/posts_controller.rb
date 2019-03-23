@@ -11,10 +11,13 @@ class Api::V1::PostsController < ApplicationController
   end
 
    def create
+    @post = Post.new(post_params[:post_info])
     
-    @post = Post.new(post_params)
     if @post.save
-      render json: @post, status: :accepted
+      post_params[:post_tags_attributes].each do |item_hash|
+        @post.post_tags.create(item_hash)
+      end
+    render json: @post, status: :accepted
     else
       render json: {errors: @post.errors.full_messages, status: :unprocessible_entity}
     end
@@ -38,6 +41,6 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:id, :title, :content, :img, :user_id)
+    params.require(:post).permit(post_info: [:id, :title, :content, :img, :user_id],  post_tags_attributes: [:id, :post_id, :tag_id] )
   end
 end

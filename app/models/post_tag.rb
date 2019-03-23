@@ -1,7 +1,7 @@
 class PostTag < ApplicationRecord
   #Associations
-  belongs_to :post
-  belongs_to :tag 
+  belongs_to :post, inverse_of: :post_tags
+  belongs_to :tag, inverse_of: :post_tags
 
   #Validations
   validates :tag_id, presence: true
