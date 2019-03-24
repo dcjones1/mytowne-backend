@@ -1,5 +1,10 @@
 class Api::V1::PostTagsController < ApplicationController
   before_action :get_post_tag, only: [:destroy]
+
+  def index
+    @post_tags = PostTag.all
+    render json: @post_tags
+  end
   
   def create
     byebug

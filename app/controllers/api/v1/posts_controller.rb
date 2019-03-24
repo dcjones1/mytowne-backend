@@ -24,8 +24,16 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def update
-    @post.update(post_params)
+    #Remove and rebuild all post tags on update. !!!Discuss better ways to update this.
+    if @post.update(post_params[:post_info])
+      @post.post_tags.destroy_all
+      post_params[:post_tags_attributes].each do |item_hash|
+        @post.post_tags.create(item_hash)
+      end
     render json: @post
+    else
+      render json: {errors: @post.errors.full_messages, status: :unprocessible_entity}
+    end
   end
   
   def destroy
@@ -41,6 +49,7 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(post_info: [:id, :title, :content, :img, :user_id],  post_tags_attributes: [:id, :post_id, :tag_id] )
+    #Formatted to accept nested attributes for post tags
+    params.require(:post).permit(post_info: [:id, :title, :content, :img, :user_id],  post_tags_attributes: [:id, :post_id, :tag_id, :name] )
   end
 end
