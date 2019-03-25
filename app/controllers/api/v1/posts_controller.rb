@@ -12,10 +12,15 @@ class Api::V1::PostsController < ApplicationController
 
    def create
     @post = Post.new(post_params[:post_info])
-    
     if @post.save
       post_params[:post_tags_attributes].each do |item_hash|
-        @post.post_tags.create(item_hash)
+        if item_hash[:tag_id].is_a? Integer 
+          @post.post_tags.create(item_hash)
+        else
+          #Creates a new tag and builds association through post_tags
+          new_tag = Tag.create(name: item_hash[:tag_id])
+          @post.post_tags.create(tag_id: new_tag[:id])
+        end
       end
     render json: @post, status: :accepted
     else
@@ -28,7 +33,13 @@ class Api::V1::PostsController < ApplicationController
     if @post.update(post_params[:post_info])
       @post.post_tags.destroy_all
       post_params[:post_tags_attributes].each do |item_hash|
-        @post.post_tags.create(item_hash)
+        if item_hash[:tag_id].is_a? Integer 
+          @post.post_tags.create(item_hash)
+        else
+          # new tag handling 
+          new_tag = Tag.create(name: item_hash[:tag_id])
+          @post.post_tags.create(tag_id: new_tag[:id])
+        end
       end
     render json: @post
     else
