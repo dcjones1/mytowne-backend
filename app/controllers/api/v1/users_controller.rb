@@ -6,6 +6,16 @@ class Api::V1::UsersController < ApplicationController
     render json: @users
   end
 
+  def login
+    
+    @user = User.find_by(username: params[:username])
+    if @user && @user.authenticate(params[:password])
+      render json: @user
+    else
+      render json: {errors: "Username or password is incorrect", status: :unprocessible_entity}
+    end
+  end
+
   def show
     render json: @user
   end
@@ -36,7 +46,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:id, :name, :birth_date, :email, :username, :town, :avatar, :bio)
+    params.require(:user).permit(:id, :name, :birth_date, :email, :username, :town, :avatar, :bio, :password, :password_confirmation)
   end
 
 end
