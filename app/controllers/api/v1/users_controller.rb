@@ -1,4 +1,5 @@
 class Api::V1::UsersController < ApplicationController
+  skip_before_action :authorized, only: [:create]
   before_action :get_user, only: [:show, :update, :destroy]
 
   def index
@@ -6,15 +7,18 @@ class Api::V1::UsersController < ApplicationController
     render json: @users
   end
 
-  def login
-    
-    @user = User.find_by(username: params[:username])
-    if @user && @user.authenticate(params[:password])
-      render json: @user
-    else
-      render json: {errors: "Username or password is incorrect", status: :unprocessible_entity}
-    end
+  def profile
+    render json: { user: UserSerializer.new(current_user) }, status: :accepted
   end
+
+  # def login
+  #   @user = User.find_by(username: params[:username])
+  #   if @user && @user.authenticate(params[:password])
+  #     render json: @user
+  #   else
+  #     render json: {errors: "Username or password is incorrect", status: :unprocessible_entity}
+  #   end
+  # end
 
   def show
     render json: @user
@@ -23,9 +27,10 @@ class Api::V1::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      render json: @user, status: :accepted
+      @token = encode_token({ user_id: @user.id })
+      render json: { user: UserSerializer.new(@user), jwt: @token }, status: :created
     else
-      render json: {errors: @user.errors.full_messages, status: :unprocessible_entity}
+      render json: { error: @user.errors.full_messages, status: :not_acceptable }
     end
   end
 
@@ -33,7 +38,7 @@ class Api::V1::UsersController < ApplicationController
     @user.update(user_params)
     render json: @user
   end
-  
+
   def destroy
     user = @user
     @user.destroy

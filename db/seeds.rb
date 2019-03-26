@@ -17,7 +17,8 @@ User.create(
   username: 'canikwe',
   town: 'WeLive - Clarendon',
   avatar: 'http://fanaru.com/harry-potter/image/thumb/156477-harry-potter-neville-longbottom.jpg',
-  bio: 'I love cheesy puns and Harry Potter.'
+  bio: 'I love cheesy puns and Harry Potter.',
+  password: 'password'
 )
 
 User.create(
@@ -27,7 +28,8 @@ User.create(
   username: 'cjones',
   town: 'WeLive - Clarendon',
   avatar: 'https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png',
-  bio: 'A bibliophile, curator of fine charcuterie, and philosopher of the modern era.'
+  bio: 'A bibliophile, curator of fine charcuterie, and philosopher of the modern era.',
+  password: 'password'
 )
 
 post1 = Post.create(
