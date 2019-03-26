@@ -18,7 +18,7 @@ u1 = User.create(
   town: 'WeLive - Clarendon',
   avatar: 'http://fanaru.com/harry-potter/image/thumb/156477-harry-potter-neville-longbottom.jpg',
   bio: 'I love cheesy puns and Harry Potter.',
-  password: "test"
+  password: 'password'
 )
 
 u2 = User.create(
@@ -29,7 +29,7 @@ u2 = User.create(
   town: 'WeLive - Clarendon',
   avatar: 'https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png',
   bio: 'A bibliophile, curator of fine charcuterie, and philosopher of the modern era.',
-  password: "test"
+  password: 'password'
 )
 
 post1 = Post.create(

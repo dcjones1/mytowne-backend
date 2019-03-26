@@ -6,7 +6,8 @@ Rails.application.routes.draw do
       resources :posts, except: [:new, :edit]
       resources :tags, only: [:create, :index]
       resources :post_tags, only: [:create, :destroy, :index]
-      post 'login', to: 'users#login'
+      post 'login', to: 'auth#create'
+      get 'profile', to: 'users#profile'
     end
   end
 end
