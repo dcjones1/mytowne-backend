@@ -35,6 +35,11 @@ class Api::V1::PostsController < ApplicationController
       post_params[:post_tags_attributes].each do |item_hash|
         if item_hash[:tag_id].is_a? Integer 
           @post.post_tags.create(item_hash)
+          # Tag.all.each do |t|
+          #   if t.post_tags == []
+          #     t.destroy
+          #   end
+          # end
         else
           # new tag handling 
           new_tag = Tag.create(name: item_hash[:tag_id])
